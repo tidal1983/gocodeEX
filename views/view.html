@@ -1,0 +1,15 @@
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<form action="/updateUserinfo" method="get">
+	{{.}}登入成功
+	<input type="hidden" name="uid" id="uid" value="8"/>
+	<input type="submit" name="username" value="更新個人資料"/>
+</form>
+<form action="/selectUserinfo" method="get">
+	<input type="submit" name="username" value="使用者列表"/>
+</form>
+</body>
+</html>

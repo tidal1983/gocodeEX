@@ -1,0 +1,12 @@
+<html>
+<head>ADD USER</head>
+<form action="/updateUserinfo" method="post">
+    <ul>
+        <input type="hidden" name="uid" id="uid" value="{{.UID}}"/>
+        <li>用户名：{{.Username}}</li>
+        <li>密碼：<input type="password" id="password" name="password" maxlength="14" value="{{.Password}}"></li>
+        <li>部門：<input type="text" id="department" name="department" maxlength="500" value="{{.Department}}"></li>
+    </ul>
+    <input type="submit" value="儲存">
+</form>
+</html>

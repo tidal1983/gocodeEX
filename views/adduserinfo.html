@@ -1,0 +1,37 @@
+<html>
+<head>ADD USER</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function checkUser(){
+        $.ajax({
+            url:"checkUser",
+            type:"POST",
+            data:{
+                username:$("#username").val()
+            },
+            success:function(e) {
+                console.log(e)
+            }
+        }).done(function (data){
+            if(data=="success"){
+                alert("用户名可使用");
+            }else{
+                alert("用户名不可使用");
+            }
+        });	
+    }
+</script>
+
+<form action="/adduserinfo" method="post">
+    <ul>
+        <li>用户名：<input type="text" id="username" name="username" maxlength="100" onchange="checkUser()"></li>
+        <li>密碼：<input type="text" id="password" name="password" maxlength="14"></li>
+        <li>部門：<input type="text" id="department" name="department" maxlength="500"></li>
+    </ul>
+    <input type="submit" value="儲存">
+</form>
+</html>
