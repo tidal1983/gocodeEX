@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io"
 	"models/dao"
+	"models/redis"
 	"net/http"
 	"strconv"
 	"time"
@@ -32,7 +33,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		t, _ := template.ParseFiles("views/login.html")
 		t.Execute(w, token)
 	} else if r.Method == "POST" {
-
 		r.ParseForm()
 		token := r.Form.Get("token")
 		if token != "" {
@@ -42,7 +42,22 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			for i, userinfo := range dao.CheckdataSlice(usernameF) {
 				if i == 0 && passowrd == userinfo.Password {
 					t, _ := template.ParseFiles("views/view.html")
-					t.Execute(w, usernameF)
+					cookie := http.Cookie{Name: "tokenName", Value: token, Path: "/", HttpOnly: true, MaxAge: int(1800)}
+					http.SetCookie(w, &cookie)
+					client := redis.OpenClient("localhost:6379", "", 0)
+					fmt.Println(token)
+					err := client.Set(token, usernameF, 1800*time.Second).Err()
+
+					if err != nil {
+						panic(err)
+					}
+
+					val, err2 := client.Get(token).Result()
+					if err2 != nil {
+						panic(err2)
+					}
+					fmt.Println("tokenval = ", val)
+					t.Execute(w, userinfo)
 					break
 				} else {
 					t, _ := template.ParseFiles("views/show.html")
